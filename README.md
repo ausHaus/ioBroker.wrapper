@@ -3,7 +3,6 @@ ioBroker Home Adapter
 ==============
 [![NPM version](http://img.shields.io/npm/v/iobroker.home.svg)](https://www.npmjs.com/package/iobroker.home)
 [![Downloads](https://img.shields.io/npm/dm/iobroker.home.svg)](https://www.npmjs.com/package/iobroker.home)
-[![Tests](https://travis-ci.org/ausHaus/ioBroker.home.svg?branch=master)](https://travis-ci.org/ausHaus/ioBroker.home)
 
 [![NPM](https://nodei.co/npm/iobroker.home.png?downloads=true)](https://nodei.co/npm/iobroker.home/)
 

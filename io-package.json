@@ -1,0 +1,39 @@
+{
+    "common": {
+        "name":                     "home",
+        "version":                  "0.1.0",
+        "news": {
+            "0.1.0": {
+                "en": "initial commit",
+                "de": "initial commit",
+                "ru": "initial commit"
+            }
+        },
+        "title":                    "Home Adapter",
+        "desc":                     {
+            "en": "This adapter creates and binds variables.",
+            "de": "Adapter erzeugt und bindet Variablen",
+            "ru": "Драйвер создает и связывает переменные"
+        },
+        "authors": [
+            "ausHaus <teshaus@gmail.com>"
+        ],
+        "license":                  "MIT",
+        "platform":                 "Javascript/Node.js",
+        "mode":                     "daemon",
+        "readme":                   "https://github.com/ausHaus/ioBroker.home/blob/master/README.md",
+        "loglevel":                 "info",
+        "icon":                     "home.png",
+        "keywords":                 ["home", "id", "binds"],
+        "extIcon":                  "https://raw.githubusercontent.com/ausHaus/ioBroker.home/master/admin/home.png",
+        "type":                     "common adapters"
+    },
+    "native": {
+        "devices": [
+
+        ]
+    },
+    "objects": [
+
+    ]
+}

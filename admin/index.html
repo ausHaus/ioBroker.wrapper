@@ -1,0 +1,206 @@
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="../../lib/css/themes/jquery-ui/redmond/jquery-ui.min.css"/>
+<link rel="stylesheet" type="text/css" href="../../lib/css/fancytree/ui.fancytree.min.css"/>
+
+<script type="text/javascript" src="../../lib/js/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="../../socket.io/socket.io.js"></script>
+<script type="text/javascript" src="../../lib/js/jquery-ui-1.10.3.full.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="../../css/adapter.css"/>
+<script type="text/javascript" src="../../js/translate.js"></script>
+<script type="text/javascript" src="../../js/adapter-settings.js"></script>
+<script type="text/javascript" src="../../lib/js/jquery.fancytree-all.min.js"></script>
+<script type="text/javascript" src="../../js/selectID.js"></script>
+<script type="text/javascript" src="words.js"></script>
+
+<script type="text/javascript">
+    var devices = [];
+
+    var selectId;
+    var filterTimer;
+    var values = [];
+    
+    function initSelectId(callback) {
+        if (selectId) {
+            return callback(selectId);
+        }
+        socket.emit('getObjects', function (err, objs) {
+            selectId = $('#dialog-select-member').selectId('init',  {
+                noMultiselect: true,
+                objects: objs,
+                imgPath:       '../../lib/css/fancytree/',
+                filter:        {type: 'state'},
+                name:          'scenes-select-state',
+                texts: {
+                    select:          _('Select'),
+                    cancel:          _('Cancel'),
+                    all:             _('All'),
+                    id:              _('ID'),
+                    name:            _('Name'),
+                    role:            _('Role'),
+                    room:            _('Room'),
+                    value:           _('Value'),
+                    selectid:        _('Select ID'),
+                    from:            _('From'),
+                    lc:              _('Last changed'),
+                    ts:              _('Time stamp'),
+                    wait:            _('Processing...'),
+                    ack:             _('Acknowledged'),
+                    selectAll:       _('Select all'),
+                    unselectAll:     _('Deselect all'),
+                    invertSelection: _('Invert selection')
+                },
+                columns: ['image', 'name', 'role', 'room']
+            });
+            callback(selectId);
+        });
+    }
+
+    function setValue(id, value, onChange) {
+        var $value = $('#' + id + '.value');
+        if ($value.attr('type') === 'checkbox') {
+            $value.prop('checked', value).change(function() {
+                onChange();
+            });
+        } else {
+            $value.val(value).change(function() {
+                onChange();
+            }).keyup(function() {
+                // Check that only numbers entered
+                if ($(this).hasClass('number')) {
+                    var val = $(this).val();
+                    if (val) {
+                        var newVal = '';
+                        for (var i = 0; i < val.length; i++) {
+                            if (val[i] >= '0' && val[i] <= '9') {
+                                newVal += val[i];
+                            }
+                        }
+                        
+                        if (val != newVal) $(this).val(newVal);
+                    }
+                }
+
+                onChange();
+            });
+        }
+    }
+    function filter() {
+        var val = $('#filter').val().toLowerCase();
+        if (!val) {
+            $('#table_values tr').show();
+        } else {
+            $('#table_values tr').each(function () {
+                var $td = $(this).find('.group');
+                if (!$td.length) return;
+                var text = $td.html().toLowerCase();
+                if (text.indexOf(val) !== -1) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            });
+        }
+    }
+
+    // the function loadSettings has to exist ...
+    function load(settings, onChange) {
+        if (!settings) return;
+
+        devices = settings.devices || [];
+
+        if (settings.responseOID === undefined) settings.responseOID = '';
+
+        for (var key in settings) {
+            if (settings.hasOwnProperty(key)) setValue(key, settings[key], onChange);
+        }
+
+        $('#filter').change(function (){
+            if (filterTimer) clearTimeout(filterTimer);
+            filterTimer = setTimeout(function () {
+                filterTimer = null;
+
+                filter();
+            }, 400);
+        }).keyup(function () {
+            $(this).trigger('change');
+        });
+
+        $('#filter-clear').button({icons: {primary: 'ui-icon-close'}, text: false}).css({width: '1em', height: '1em'}).click(function () {
+            $('#filter').val('').trigger('change');
+        });
+
+        $('#responseOIDDialog').button({icons: {primary: 'ui-icon-pencil'}, text: false}).css({width: '1em', height: '1em'}).click(function () {
+            initSelectId(function (sid) {
+                sid.selectId('show', $('#responseOID').val(), function (newId) {
+                    if (newId) {
+                        $('#responseOID').val(newId).trigger('change');
+                    }
+                });
+            });
+        });
+        
+        values2table('values', devices, onChange);
+
+        onChange(false);
+    }
+
+    function save(callback) {
+        var obj = {};
+        $('.value').each(function () {
+            var $this = $(this);
+            if ($this.attr('type') === 'checkbox') {
+                obj[$this.attr('id')] = $this.prop('checked');
+            } else {
+                obj[$this.attr('id')] = $this.val();
+            }
+        });
+
+        // Get edited table
+        obj.devices = table2values('values');
+
+        callback(obj);
+    }
+
+</script>
+</head>
+<body>
+<div id="adapter-container">
+    <table><tr>
+        <td><img src="home.png"></td>
+        <td><h3 class="translate">Home adapter settings</h3></td>
+    </tr></table>
+    <table>
+        <!--tr><td><input class="value" id="responseOID"/><button id="responseOIDDialog"></button></td></tr-->
+    </table>
+    <div id="values" style="width: 100%; height: calc(100% - 230px)">
+        <span style="display: inline-block; font-size: larger;" class="translate">Add device: </span><button class="table-button-add" style="margin-left: 10px; width: 1.5em; height: 1.5em"></button>
+        <!--div style="display: inline-block"><label class="translate" for="filter">Filter: </label><input id="filter" style="display: inline-block"/><button id="filter-clear" style="display: inline-block"></button></div-->
+        <!--div style="width: 100%; height: calc(100% - 30px); overflow: auto;"-->
+        <div style="width: 100%; height: calc(100% - 30px); overflow-y: scroll;">
+            <table id="table_values" class="table-values" style="width: 100%;">
+                <thead>
+                <tr>
+                    <th data-name="_index"    style="width: 30px" data-style="text-align: center;"></th>
+                    <th data-name="name"      style="width: 30%"  class="translate">Name</th>
+                    <th data-name="group"     class="translate">Group</th>
+                    <th data-name="ip"        class="translate">ID</th>
+                    <th data-name="role"      style="width: 70px"  data-style1="width: 70px" data-type="select" data-def="state" data-options="state;temperature;humidity;value;blinds;switch;indicator;counter" class="translate">Role</th>
+                    <th data-name="room"      data-type="select"  class="translate">Room</th>
+                    <th data-name="func"      data-type="select"  class="translate">Function</th>
+                    <th data-name="binds"     class="translate">Binds</th>
+                    <th data-buttons="delete" style="width: 40px"></th>
+                    <!--th data-buttons="delete up down" style="width: 70px"></th-->
+                </tr>
+                </thead>
+                <tbody id="tab-rules-body"></tbody>
+            </table>
+        </div>
+    </div>
+    <p class="translate">on save adapter restarts with new config immediately</p>
+</div>
+<div id="dialog-select-member" style="display: none"></div>
+<!--script type="text/javascript" src="tab.js"></script-->
+</body>
+</html>

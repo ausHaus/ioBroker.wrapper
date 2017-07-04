@@ -26,7 +26,13 @@
         "icon":                     "home.png",
         "keywords":                 ["home", "id", "binds"],
         "extIcon":                  "https://raw.githubusercontent.com/ausHaus/ioBroker.home/master/admin/home.png",
-        "type":                     "common adapters"
+        "type":                     "common adapters"б
+        "config": {
+            "width":     1150,
+            "height":    650,
+            "minWidth":  800,
+            "minHeight": 500
+        }
     },
     "native": {
         "devices": [

@@ -29,7 +29,7 @@ adapter.on('stateChange', function (id, state) {
     var end;
     var endd;
     for (var i = 0; i < adapter.config.devices.length; i++) {
-        if (adapter.config.devices[i] && id === adapter.namespace + '.' + adapter.config.devices[i].group + '.' + adapter.config.devices[i].ip) {
+        if (adapter.config.devices[i] && id === adapter.namespace + '.' + adapter.config.devices[i].group + '.' + adapter.config.devices[i].id) {
             end = adapter.config.devices[i];
             break;
         } else
@@ -58,7 +58,7 @@ adapter.on('stateChange', function (id, state) {
     var device;
     var binds;
     for (var i = 0; i < adapter.config.devices.length; i++) {
-        if (adapter.config.devices[i] && id === adapter.namespace + '.' + adapter.config.devices[i].group + '.' + adapter.config.devices[i].ip) {
+        if (adapter.config.devices[i] && id === adapter.namespace + '.' + adapter.config.devices[i].group + '.' + adapter.config.devices[i].id) {
             device = adapter.config.devices[i];
             break;
         } else
@@ -131,18 +131,18 @@ function writeBinds(device, value) {
             val = parseFloat(value) || 0;
         }
         
-        adapter.log.debug('Write /' + device.ip + ' with "' + val + '"');
+        adapter.log.debug('Write /' + device.id + ' with "' + val + '"');
 
         if (role.indexOf('state') !== -1) {
-            adapter.setState(device.group + '.' + device.ip, value, true);
+            adapter.setState(device.group + '.' + device.id, value, true);
         } else {
-            adapter.setState(device.group + '.' + device.ip, parseFloat(value) || 0, true);
+            adapter.setState(device.group + '.' + device.id, parseFloat(value) || 0, true);
         }
     }
 }
 
 function createState(device, callback) {
-    var id = device.ip;
+    var id = device.id;
     ///var group = device.group;
 
     if (device.room == 'none') {
@@ -160,7 +160,7 @@ function createState(device, callback) {
     }
 
     var obj = {
-        name:        (device.name || device.ip),
+        name:        (device.name || device.id),
         type:        'boolean',
         role:        device.role,
         read:        true,
@@ -215,7 +215,7 @@ function createState(device, callback) {
 
     adapter.createState('', device.group, id, obj, {
         group:    device.group,
-        ip:       device.ip,
+        id:       device.id,
         room:     device.room,
         function: device.func,
         binds:    device.binds
@@ -247,14 +247,14 @@ function syncConfig(callback) {
         var count = 0;
         if (adapter.config.devices) {
             for (k = 0; k < adapter.config.devices.length; k++) {
-                adapter.config.devices[k]._name = adapter.config.devices[k].ip;
+                adapter.config.devices[k]._name = adapter.config.devices[k].id;
                 configToAdd.push(adapter.namespace + '.' + adapter.config.devices[k].group + '.' + adapter.config.devices[k]._name);
             }
         }
 
         if (_states) {
             for (var j = 0; j < _states.length; j++) {
-                var id = _states[j].native.ip;
+                var id = _states[j].native.id;
                 var group = _states[j].native.group;
                 if (!id) {
                     adapter.log.warn('No ID found for ' + JSON.stringify(_states[j]));
@@ -266,19 +266,19 @@ function syncConfig(callback) {
                     configToAdd.splice(pos, 1);
 
                     if (adapter.config.devices) {
-                        // Check room, id and property
+                        // Check group, id and name, role, room, function, binds
                         for (var u = 0; u < adapter.config.devices.length; u++) {
                             if (!adapter.config.devices[u] || !adapter.config.devices[u]._name) continue;
 
                             if (adapter.namespace + '.' + adapter.config.devices[u].group + '.' + adapter.config.devices[u]._name === _states[j]._id) {
-                                if (_states[j].common.name != (adapter.config.devices[u].name || adapter.config.devices[u].ip) ||
-                                    _states[j].native.ip != adapter.config.devices[u].ip) {
+                                if (_states[j].common.name != (adapter.config.devices[u].name || adapter.config.devices[u].id) ||
+                                    _states[j].native.id != adapter.config.devices[u].id) {
                                     adapter.extendObject(_states[j]._id, {
                                         common: {
-                                            name: (adapter.config.devices[u].name || adapter.config.devices[u].ip)
+                                            name: (adapter.config.devices[u].name || adapter.config.devices[u].id)
                                         },
                                         native: {
-                                            ip:         adapter.config.devices[u].ip
+                                            ip:         adapter.config.devices[u].id
                                         }
                                     });
                                 }
@@ -445,7 +445,7 @@ function syncConfig(callback) {
                                             binds: adapter.config.devices[u].binds
                                         }
                                     });
-                                    if (adapter.config.devices[u].binds != '') {
+                                    /*if (adapter.config.devices[u].binds != '') {
                                         adapter.log.info('Add the binding object to ' + adapter.config.devices[u].binds);
                                         adapter.extendForeignObject(adapter.config.devices[u].binds, {
                                             native: {
@@ -459,7 +459,7 @@ function syncConfig(callback) {
                                                 binds: adapter.config.devices[u].binds
                                             }
                                         });
-                                    }
+                                    }*/
                                 }
                             }
                         }
@@ -467,14 +467,14 @@ function syncConfig(callback) {
 
                 } else {
                     configToDelete.push(_states[j]._id);
-                    if (_states[j].native.binds != '') {
+                    /*if (_states[j].native.binds != '') {
                         adapter.log.info('Remove the binding object from ' + _states[j].native.binds);
                         adapter.extendForeignObject(_states[j].native.binds, {
                             native: {
                                 binds: ''
                             }
                         });
-                    }
+                    }*/
                 }
             }
         }

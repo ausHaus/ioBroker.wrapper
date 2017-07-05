@@ -11,6 +11,9 @@ ioBroker Home Adapter
 Home adapter creates and binds variables and monitors the results.
 
 ## Changelog
+### 0.1.2 (2017-07-05)
+* (ausHaus) many small fix
+
 ### 0.1.0 (2017-07-03)
 * (ausHaus) initial commit
 

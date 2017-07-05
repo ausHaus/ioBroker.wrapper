@@ -30,6 +30,11 @@ systemDictionary = {
     "Time stamp":            {"en": "Time stamp",            "de": "Zeitstempel",                "ru": "Время"},
     "Acknowledged":          {"en": "Acknowledged",          "de": "Bestätigt",                  "ru": "Подтверждён"},
     "Processing...":         {"en": "Processing...",         "de": "Bearbeite...",               "ru": "Обработка..."},
+    "Temporarily, to copy the bind variables: ": {
+        "en": "Temporarily, to copy the bind variables: ",
+        "de": "Vorübergehend zum Kopieren von Bind-Variablen: ",
+        "ru": "Временно, для копирования связываемых переменных: "
+    },
     "on save adapter restarts with new config immediately": {
         "en": "On save adapter restarts with new config immediately.",
         "de": "Beim Speichern von Einstellungen der Adapter wird sofort neu gestartet.",

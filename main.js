@@ -28,13 +28,16 @@ adapter.on('ready', function () {
 adapter.on('stateChange', function (id, state) {
     var end;
     var endd;
-    for (var i = 0; i < adapter.config.devices.length; i++) {
-        if (adapter.config.devices[i] && id === adapter.namespace + '.' + adapter.config.devices[i].group + '.' + adapter.config.devices[i].id) {
-            end = adapter.config.devices[i];
+    if (!id || !state) return;
+
+    for (var j = 0; j < adapter.config.devices.length; j++) {
+        if (!adapter.config.devices[j]) continue;
+        if (id === adapter.namespace + '.' + adapter.config.devices[j].group + '.' + adapter.config.devices[j].ip) {
+            end = adapter.config.devices[j];
             break;
         } else
-        if (adapter.config.devices[i] && id === adapter.config.devices[i].binds) {
-            endd = adapter.config.devices[i];
+        if (id === adapter.config.devices[j].binds) {
+            endd = adapter.config.devices[j];
             break;
         }
     }
@@ -57,12 +60,14 @@ adapter.on('stateChange', function (id, state) {
 
     var device;
     var binds;
-    for (var i = 0; i < adapter.config.devices.length; i++) {
-        if (adapter.config.devices[i] && id === adapter.namespace + '.' + adapter.config.devices[i].group + '.' + adapter.config.devices[i].id) {
+    var i;
+    for (i = 0; i < adapter.config.devices.length; i++) {
+        if (!adapter.config.devices[i]) continue;
+        if (id === adapter.namespace + '.' + adapter.config.devices[i].group + '.' + adapter.config.devices[i].ip) {
             device = adapter.config.devices[i];
             break;
         } else
-        if (adapter.config.devices[i] && id === adapter.config.devices[i].binds) {
+        if (id === adapter.config.devices[i].binds) {
             binds = adapter.config.devices[i];
             break;
         }
@@ -145,14 +150,14 @@ function createState(device, callback) {
     var id = device.id;
     ///var group = device.group;
 
-    if (device.room == 'none') {
+    if (device.room === 'none') {
         device.room = '';
     }
     if (device.room) {
         adapter.addStateToEnum('rooms', device.room, '', device.group, id);
     }
 
-    if (device.func == 'none') {
+    if (device.func === 'none') {
         device.func = '';
     }
     if (device.func) {
@@ -271,8 +276,8 @@ function syncConfig(callback) {
                             if (!adapter.config.devices[u] || !adapter.config.devices[u]._name) continue;
 
                             if (adapter.namespace + '.' + adapter.config.devices[u].group + '.' + adapter.config.devices[u]._name === _states[j]._id) {
-                                if (_states[j].common.name != (adapter.config.devices[u].name || adapter.config.devices[u].id) ||
-                                    _states[j].native.id != adapter.config.devices[u].id) {
+                                if (_states[j].common.name !== (adapter.config.devices[u].name || adapter.config.devices[u].id) ||
+                                    _states[j].native.id !== adapter.config.devices[u].id) {
                                     adapter.extendObject(_states[j]._id, {
                                         common: {
                                             name: (adapter.config.devices[u].name || adapter.config.devices[u].id)
@@ -283,7 +288,7 @@ function syncConfig(callback) {
                                     });
                                 }
 
-                                if (_states[j].common.role != adapter.config.devices[u].role) {
+                                if (_states[j].common.role !== adapter.config.devices[u].role) {
                                     if (adapter.config.devices[u].role === 'state') {
                                         adapter.extendObject(_states[j]._id, {
                                             common: {
@@ -297,7 +302,7 @@ function syncConfig(callback) {
                                             }
                                         });
                                     }
-                                    if (adapter.config.devices[u].role == 'switch') {
+                                    if (adapter.config.devices[u].role === 'switch') {
                                         adapter.extendObject(_states[j]._id, {
                                             common: {
                                                 type:        'boolean',
@@ -310,7 +315,7 @@ function syncConfig(callback) {
                                             }
                                         });
                                     }
-                                    if (adapter.config.devices[u].role == 'value') {
+                                    if (adapter.config.devices[u].role === 'value') {
                                         adapter.extendObject(_states[j]._id, {
                                             common: {
                                                 type:        'number',
@@ -323,7 +328,7 @@ function syncConfig(callback) {
                                             }
                                         });
                                     }
-                                    if (adapter.config.devices[u].role == 'blinds') {
+                                    if (adapter.config.devices[u].role === 'blinds') {
                                         adapter.extendObject(_states[j]._id, {
                                             common: {
                                                 type:        'number',
@@ -336,7 +341,7 @@ function syncConfig(callback) {
                                             }
                                         });
                                     }
-                                    if (adapter.config.devices[u].role == 'counter') {
+                                    if (adapter.config.devices[u].role === 'counter') {
                                         adapter.extendObject(_states[j]._id, {
                                             common: {
                                                 type:        'number',
@@ -362,7 +367,7 @@ function syncConfig(callback) {
                                             }
                                         });
                                     }
-                                    if (adapter.config.devices[u].role == 'temperature') {
+                                    if (adapter.config.devices[u].role === 'temperature') {
                                         adapter.extendObject(_states[j]._id, {
                                             common: {
                                                 type:        'number',
@@ -375,7 +380,7 @@ function syncConfig(callback) {
                                             }
                                         });
                                     }
-                                    if (adapter.config.devices[u].role == 'humidity') {
+                                    if (adapter.config.devices[u].role === 'humidity') {
                                         adapter.extendObject(_states[j]._id, {
                                             common: {
                                                 type:        'number',
@@ -390,11 +395,11 @@ function syncConfig(callback) {
                                     }
                                 }
 
-                                if (adapter.config.devices[u].room == 'none') {
+                                if (adapter.config.devices[u].room === 'none') {
                                     adapter.config.devices[u].room = '';
                                 }
-                                if (_states[j].native.room != adapter.config.devices[u].room) {
-                                    if (adapter.config.devices[u].room != '') {
+                                if (_states[j].native.room !== adapter.config.devices[u].room) {
+                                    if (adapter.config.devices[u].room !== '') {
                                         adapter.log.info('Add a variable ' + _states[j]._id + ' to the ' + adapter.config.devices[u].room);
                                         adapter.deleteStateFromEnum('rooms', '', group, id);
                                         adapter.addStateToEnum('rooms', adapter.config.devices[u].room, '', group, id);
@@ -415,11 +420,11 @@ function syncConfig(callback) {
                                     }
                                 }
 
-                                if (adapter.config.devices[u].func == 'none') {
+                                if (adapter.config.devices[u].func === 'none') {
                                     adapter.config.devices[u].func = '';
                                 }
-                                if (_states[j].native.function != adapter.config.devices[u].func) {
-                                    if (adapter.config.devices[u].func != '') {
+                                if (_states[j].native.function !== adapter.config.devices[u].func) {
+                                    if (adapter.config.devices[u].func !== '') {
                                         adapter.log.info('Add a variable ' + _states[j]._id + ' to the ' + adapter.config.devices[u].func);
                                         adapter.deleteStateFromEnum('functions', '', group, id);
                                         adapter.addStateToEnum('functions', adapter.config.devices[u].func, '', group, id);
@@ -439,13 +444,13 @@ function syncConfig(callback) {
                                     }
                                 }
 
-                                if (_states[j].native.binds != adapter.config.devices[u].binds) {
+                                if (_states[j].native.binds !== adapter.config.devices[u].binds) {
                                     adapter.extendObject(_states[j]._id, {
                                         native: {
                                             binds: adapter.config.devices[u].binds
                                         }
                                     });
-                                    /*if (adapter.config.devices[u].binds != '') {
+                                    /* if (adapter.config.devices[u].binds !== '') {
                                         adapter.log.info('Add the binding object to ' + adapter.config.devices[u].binds);
                                         adapter.extendForeignObject(adapter.config.devices[u].binds, {
                                             native: {
@@ -459,7 +464,7 @@ function syncConfig(callback) {
                                                 binds: adapter.config.devices[u].binds
                                             }
                                         });
-                                    }*/
+                                    } */
                                 }
                             }
                         }
@@ -467,14 +472,14 @@ function syncConfig(callback) {
 
                 } else {
                     configToDelete.push(_states[j]._id);
-                    /*if (_states[j].native.binds != '') {
+                    /* if (_states[j].native.binds !== '') {
                         adapter.log.info('Remove the binding object from ' + _states[j].native.binds);
                         adapter.extendForeignObject(_states[j].native.binds, {
                             native: {
                                 binds: ''
                             }
                         });
-                    }*/
+                    } */
                 }
             }
         }
@@ -482,7 +487,7 @@ function syncConfig(callback) {
         if (configToAdd.length && adapter.config.devices) { 
             for (var r = 0; r < adapter.config.devices.length; r++) {
                 if (!adapter.config.devices[r] || !adapter.config.devices[r]._name) continue;
-                if (configToAdd.indexOf(adapter.namespace + '.' + adapter.config.devices[r].group + '.' + adapter.config.devices[r]._name) != -1) {
+                if (configToAdd.indexOf(adapter.namespace + '.' + adapter.config.devices[r].group + '.' + adapter.config.devices[r]._name) !== -1) {
                     count++;
                     adapter.log.info('Create state ' + adapter.namespace + '.' + adapter.config.devices[r].group + '.' + adapter.config.devices[r]._name);
                     addState(adapter.config.devices[r], function () {
@@ -493,7 +498,7 @@ function syncConfig(callback) {
         }
         if (configToDelete.length) {
             for (var e = 0; e < configToDelete.length; e++) {
-                count++
+                count++;
                 adapter.log.info('Delete state ' + configToDelete[e]);
                 adapter.delObject(configToDelete[e], function () {
                     if (!--count && callback) callback();
@@ -503,6 +508,25 @@ function syncConfig(callback) {
 
         if (!count && callback) callback();
     });
+}
+
+function readObjects(index, callback) {
+    if (index >= adapter.config.devices.length) {
+        callback && callback();
+    } else {
+        var task = tasks.pop();
+        var device = adapter.config.devices[index];
+        if (!device.binds) {
+            return setTimeout(readObjects, 0, index, callback);
+        }
+        adapter.getForeignState(device.binds, function (err, state) {
+            if (state) {
+                // TODO here!!! I dont understand why
+                writeWire(device, state.val);
+            }
+            setTimeout(readObjects, 0, index, callback);
+        });
+    }
 }
 
 function main() {
@@ -525,7 +549,7 @@ function main() {
         ///adapter.subscribeForeignStates('*');
     }
 
-    syncConfig();
+    syncConfig(readObjects);
 
     adapter.subscribeStates('*');
 }    

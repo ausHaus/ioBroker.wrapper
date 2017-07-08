@@ -32,7 +32,7 @@ adapter.on('stateChange', function (id, state) {
 
     for (var j = 0; j < adapter.config.devices.length; j++) {
         if (!adapter.config.devices[j]) continue;
-        if (id === adapter.namespace + '.' + adapter.config.devices[j].group + '.' + adapter.config.devices[j].ip) {
+        if (id === adapter.namespace + '.' + adapter.config.devices[j].group + '.' + adapter.config.devices[j].id) {
             end = adapter.config.devices[j];
             break;
         } else
@@ -63,7 +63,7 @@ adapter.on('stateChange', function (id, state) {
     var i;
     for (i = 0; i < adapter.config.devices.length; i++) {
         if (!adapter.config.devices[i]) continue;
-        if (id === adapter.namespace + '.' + adapter.config.devices[i].group + '.' + adapter.config.devices[i].ip) {
+        if (id === adapter.namespace + '.' + adapter.config.devices[i].group + '.' + adapter.config.devices[i].id) {
             device = adapter.config.devices[i];
             break;
         } else
@@ -218,12 +218,24 @@ function createState(device, callback) {
         obj.def    = 0;
     }
 
-    adapter.createState('', device.group, id, obj, {
+    /* adapter.createState('', device.group, id, obj, {
         group:    device.group,
         id:       device.id,
         room:     device.room,
         function: device.func,
         binds:    device.binds
+    }, callback); */
+    var groupID = device.group + '.' + id;
+    adapter.setObjectNotExists(groupID, {
+        type: 'state',
+        common: obj,
+        native: {
+            group:    device.group,
+            id:       device.id,
+            room:     device.room,
+            function: device.func,
+            binds:    device.binds
+        },
     }, callback);
 }
 
@@ -510,7 +522,7 @@ function syncConfig(callback) {
     });
 }
 
-function readObjects(index, callback) {
+/* function readObjects(index, callback) {
     if (index >= adapter.config.devices.length) {
         callback && callback();
     } else {
@@ -527,7 +539,7 @@ function readObjects(index, callback) {
             setTimeout(readObjects, 0, index, callback);
         });
     }
-}
+} */
 
 function main() {
     if (!adapter.config.devices.length) {
@@ -549,7 +561,8 @@ function main() {
         ///adapter.subscribeForeignStates('*');
     }
 
-    syncConfig(readObjects);
+    ///syncConfig(readObjects);
+    syncConfig();
 
     adapter.subscribeStates('*');
 }    

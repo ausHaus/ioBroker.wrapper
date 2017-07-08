@@ -498,6 +498,7 @@ function syncConfig(callback) {
 
         if (configToAdd.length && adapter.config.devices) { 
             for (var r = 0; r < adapter.config.devices.length; r++) {
+                if (!adapter.config.devices[r] || !adapter.config.devices[r].group) continue;
                 if (!adapter.config.devices[r] || !adapter.config.devices[r]._name) continue;
                 if (configToAdd.indexOf(adapter.namespace + '.' + adapter.config.devices[r].group + '.' + adapter.config.devices[r]._name) !== -1) {
                     count++;

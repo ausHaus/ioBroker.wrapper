@@ -1,8 +1,13 @@
 {
     "common": {
-        "name":                     "home",
-        "version":                  "0.1.2",
+        "name":                     "wrapper",
+        "version":                  "0.1.5",
         "news": {
+            "0.1.5": {
+                "en": "adapter rename",
+                "de": "Adapter umbenennen",
+                "ru": "Переименовать драйвер"
+            },
             "0.1.2": {
                 "en": "many small fix",
                 "de": "Viele kleine fix",
@@ -14,7 +19,7 @@
                 "ru": "initial commit"
             }
         },
-        "title":                    "Home Adapter",
+        "title":                    "Wrapper Adapter",
         "desc":                     {
             "en": "This adapter creates and binds variables.",
             "de": "Adapter erzeugt und bindet Variablen",
@@ -26,11 +31,11 @@
         "license":                  "MIT",
         "platform":                 "Javascript/Node.js",
         "mode":                     "daemon",
-        "readme":                   "https://github.com/ausHaus/ioBroker.home/blob/master/README.md",
+        "readme":                   "https://github.com/ausHaus/ioBroker.wrapper/blob/master/README.md",
         "loglevel":                 "info",
-        "icon":                     "home.png",
+        "icon":                     "wrapper.png",
         "keywords":                 ["home", "id", "binds"],
-        "extIcon":                  "https://raw.githubusercontent.com/ausHaus/ioBroker.home/master/admin/home.png",
+        "extIcon":                  "https://raw.githubusercontent.com/ausHaus/ioBroker.wrapper/master/admin/wrapper.png",
         "type":                     "common adapters",
         "config": {
             "width":     1150,

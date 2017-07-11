@@ -295,7 +295,7 @@ function syncConfig(callback) {
                                             name: (adapter.config.devices[u].name || adapter.config.devices[u].id)
                                         },
                                         native: {
-                                            ip:         adapter.config.devices[u].id
+                                            id:         adapter.config.devices[u].id
                                         }
                                     });
                                 }

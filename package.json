@@ -1,7 +1,7 @@
 {
-  "name": "iobroker.home",
+  "name": "iobroker.wrapper",
   "description": "This adapter creates and binds variables and monitors the results.",
-  "version": "0.1.2",
+  "version": "0.1.5",
   "author": {
     "name": "ausHaus",
     "email": "teshaus@gmail.com"
@@ -12,16 +12,16 @@
       "email": "teshaus@gmail.com"
     }
   ],
-  "homepage": "https://github.com/ausHaus/ioBroker.home",
+  "homepage": "https://github.com/ausHaus/ioBroker.wrapper",
   "license": "MIT",
   "keywords": [
     "ioBroker",
-    "home",
+    "wrapper",
     "home automation"
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ausHaus/ioBroker.home.git"
+    "url": "git+https://github.com/ausHaus/ioBroker.wrapper.git"
   },
   "devDependencies": {
     "grunt": "^0.4.5",
@@ -33,7 +33,7 @@
     "chai": "^3.4.1"
   },
   "bugs": {
-    "url": "https://github.com/ausHaus/ioBroker.home/issues"
+    "url": "https://github.com/ausHaus/ioBroker.wrapper/issues"
   },
   "main": "main.js",
   "scripts": {

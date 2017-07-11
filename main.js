@@ -1,6 +1,6 @@
 /**
  *
- *      ioBroker Home Adapter
+ *      ioBroker Wrapper Adapter
  *
  *      (c) 2017 ausHaus<teshaus@gmail.com>
  *
@@ -11,7 +11,7 @@
 /*jslint node: true */
 'use strict';
 var utils      = require(__dirname + '/lib/utils'); // Get common adapter utils
-var adapter    = utils.adapter('home');
+var adapter    = utils.adapter('wrapper');
 
 var objects = {};
 ///var states;
@@ -171,7 +171,7 @@ function createState(device, callback) {
         read:        true,
         write:       false,
         def:         false,
-        desc:        'Home state of ' + device.name
+        desc:        'Wraper state of ' + device.name
     };
 
     if (obj.role === 'switch') {
@@ -544,7 +544,7 @@ function syncConfig(callback) {
 
 function main() {
     if (!adapter.config.devices.length) {
-        adapter.log.warn('No one ID configured for home');
+        adapter.log.warn('No one ID configured for wrapper');
         return;
     }
 

@@ -1,16 +1,19 @@
-![Logo](admin/home.png)
-ioBroker Home Adapter
+![Logo](admin/wrapper.png)
+ioBroker Wrapper Adapter
 ==============
-[![NPM version](http://img.shields.io/npm/v/iobroker.home.svg)](https://www.npmjs.com/package/iobroker.home)
-[![Downloads](https://img.shields.io/npm/dm/iobroker.home.svg)](https://www.npmjs.com/package/iobroker.home)
+[![NPM version](http://img.shields.io/npm/v/iobroker.wrapper.svg)](https://www.npmjs.com/package/iobroker.wrapper)
+[![Downloads](https://img.shields.io/npm/dm/iobroker.wrapper.svg)](https://www.npmjs.com/package/iobroker.wrapper)
 
-[![NPM](https://nodei.co/npm/iobroker.home.png?downloads=true)](https://nodei.co/npm/iobroker.home/)
+[![NPM](https://nodei.co/npm/iobroker.wrapper.png?downloads=true)](https://nodei.co/npm/iobroker.wrapper/)
 
-# Home configured ID.
+# Wrapper configured ID.
 
-Home adapter creates and binds variables and monitors the results.
+Wrapper adapter creates and binds variables and monitors the results.
 
 ## Changelog
+### 0.1.5 (2017-07-11)
+* (ausHaus) adapter rename
+
 ### 0.1.2 (2017-07-05)
 * (ausHaus) many small fix
 

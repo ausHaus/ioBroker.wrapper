@@ -1,5 +1,9 @@
 systemDictionary = {
-    "Home adapter settings": {"en": "Home adapter settings", "de": "Home Adapter-Einstellungen", "ru": "Настройки драйвера Home"},
+    "Wrapper adapter settings": {
+        "en": "Wrapper adapter settings",
+        "de": "Wrapper Adapter-Einstellungen",
+        "ru": "Настройки драйвера Wrapper"
+    },
     "Name":                  {"en": "Name",                  "de": "Name",                       "ru": "Имя"},
     "Group":                 {"en": "Group",                 "de": "Gruppe",                     "ru": "Группа"},
     "ID":                    {"en": "ID",                    "de": "ID",                         "ru": "ID"},

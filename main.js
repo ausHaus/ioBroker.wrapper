@@ -50,7 +50,7 @@ adapter.on('stateChange', function (id, state) {
     } else {
         return;
     }
-    
+
     adapter.log.debug('stateChange ' + id + ': ' + JSON.stringify(state));
 
     // output to parser
@@ -135,7 +135,7 @@ function writeBinds(device, value) {
         } else {
             val = parseFloat(value) || 0;
         }
-        
+
         adapter.log.debug('Write /' + device.id + ' with "' + val + '"');
 
         if (role.indexOf('state') !== -1) {
@@ -496,7 +496,7 @@ function syncConfig(callback) {
             }
         }
 
-        if (configToAdd.length && adapter.config.devices) { 
+        if (configToAdd.length && adapter.config.devices) {
             for (var r = 0; r < adapter.config.devices.length; r++) {
                 if (!adapter.config.devices[r] || !adapter.config.devices[r].group) continue;
                 if (!adapter.config.devices[r] || !adapter.config.devices[r]._name) continue;
@@ -551,10 +551,12 @@ function main() {
     // Subscribe on own variables to config binds
     if (adapter.config.devices.length) {
         for (var t = 0; t < adapter.config.devices.length; t++) {
-            var parts = adapter.config.devices[t].binds.split('.');
-            if (parts[0]) {
-                var bindss = (parts[0] + '.' + parts[1] + '.*');
-                adapter.subscribeForeignStates(bindss);
+            if (adapter.config.devices[t].binds) {
+                var parts = adapter.config.devices[t].binds.split('.');
+                if (parts[0]) {
+                    var bindss = (parts[0] + '.' + parts[1] + '.*');
+                    adapter.subscribeForeignStates(bindss);
+                }
             }
         }
     } else {
@@ -566,4 +568,4 @@ function main() {
     syncConfig();
 
     adapter.subscribeStates('*');
-}    
+}

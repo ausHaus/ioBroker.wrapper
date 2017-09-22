@@ -1,8 +1,13 @@
 {
     "common": {
         "name":                     "wrapper",
-        "version":                  "0.1.5",
+        "version":                  "0.1.6",
         "news": {
+            "0.1.6": {
+                "en": "many small fix",
+                "de": "Viele kleine fix",
+                "ru": "Много мелких исправлений"
+            },
             "0.1.5": {
                 "en": "adapter rename",
                 "de": "Adapter umbenennen",

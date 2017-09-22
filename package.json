@@ -1,7 +1,7 @@
 {
   "name": "iobroker.wrapper",
   "description": "This adapter creates and binds variables and monitors the results.",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "author": {
     "name": "ausHaus",
     "email": "teshaus@gmail.com"

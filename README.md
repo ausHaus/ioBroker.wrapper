@@ -11,6 +11,9 @@ ioBroker Wrapper Adapter
 Wrapper adapter creates and binds variables and monitors the results.
 
 ## Changelog
+### 0.1.6 (2017-09-22)
+* (Apollon77) many small fix
+
 ### 0.1.5 (2017-07-11)
 * (ausHaus) adapter rename
 

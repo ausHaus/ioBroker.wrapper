@@ -11,7 +11,7 @@
 /*jslint node: true */
 'use strict';
 var utils      = require(__dirname + '/lib/utils'); // Get common adapter utils
-var adapter    = utils.adapter('wrapper');
+var adapter    = utils.Adapter('wrapper');
 
 var objects = {};
 ///var states;

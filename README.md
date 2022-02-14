@@ -1,7 +1,7 @@
 ![Logo](admin/wrapper.png)
 ioBroker Wrapper Adapter
 ==============
-[![NPM version](http://img.shields.io/npm/v/iobroker.wrapper.svg)](https://www.npmjs.com/package/iobroker.wrapper)
+![Number of Installations](http://iobroker.live/badges/wrapper-installed.svg) ![Number of Installations](http://iobroker.live/badges/wrapper-stable.svg) [![NPM version](http://img.shields.io/npm/v/iobroker.wrapper.svg)](https://www.npmjs.com/package/iobroker.wrapper)
 [![Downloads](https://img.shields.io/npm/dm/iobroker.wrapper.svg)](https://www.npmjs.com/package/iobroker.wrapper)
 
 [![NPM](https://nodei.co/npm/iobroker.wrapper.png?downloads=true)](https://nodei.co/npm/iobroker.wrapper/)
